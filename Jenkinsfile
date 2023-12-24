@@ -52,6 +52,9 @@ pipeline {
         }
 	steps {
             sh "sed -i '' 's/{tag}/$TAG/g' /Users/quanghop/Documents/devops/devops-training-$ENV/docker-compose.yaml"
+
+            sh "sed -i '' 's/{env}/$ENV/g' /Users/quanghop/Documents/devops/devops-training-$ENV/docker-compose.yaml"
+            
             sh "docker compose up -d"
         }      
        }

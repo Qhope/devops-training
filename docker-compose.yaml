@@ -30,6 +30,7 @@ services:
     ports:
       - "3000:3000"
     environment:
+      ENV: "{env}"
       DB_HOST: db
       DB_USER: training
       DB_PASSWORD: training_pw
