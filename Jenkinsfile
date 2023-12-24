@@ -9,8 +9,8 @@ pipeline {
     stage('Build Image') {
         agent {
             node {
-                label "Build-server"
-                customWorkspace "/home/ubuntu/jenkins/multi-branch/devops-training-$ENV/"
+                label "build-slave"
+                customWorkspace "/Users/quanghop/Documents/devops/devops-training-$ENV/"
                 }
             }
         environment {
@@ -19,16 +19,15 @@ pipeline {
          steps {
             sh "docker build nodejs/. -t devops-training-nodejs-$ENV:latest --build-arg BUILD_ENV=$ENV -f nodejs/Dockerfile"
 
-
-            sh "cat docker.txt | docker login -u manhhoangseta --password-stdin"
+            sh "cat docker.txt | docker login -u quanghop --password-stdin"
             // tag docker image
-            sh "docker tag devops-training-nodejs-$ENV:latest [dockerhub-repo]:$TAG"
+            sh "docker tag devops-training-nodejs-$ENV:latest devops-training:$TAG"
 
             //push docker image to docker hub
-            sh "docker push [dockerhub-repo]:$TAG"
+            sh "docker push devops-training:$TAG"
 
 	    // remove docker image to reduce space on build server	
-            sh "docker rmi -f [dockerhub-repo]:$TAG"
+            sh "docker rmi -f devops-training:$TAG"
 
            }
          
@@ -37,7 +36,7 @@ pipeline {
 	    agent {
         node {
             label "Target-Server"
-                customWorkspace "/home/ubuntu/jenkins/multi-branch/devops-training-$ENV/"
+                customWorkspace  "/Users/quanghop/Documents/devops/devops-training-$ENV/"
             }
         }
         environment {
