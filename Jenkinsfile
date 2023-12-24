@@ -33,7 +33,7 @@ pipeline {
             //push docker image to docker hub
             sh "docker push quanghop/devops-training:$TAG"
 
-	    // remove docker image to reduce space on build server	
+	        // remove docker image to reduce space on build server	
             sh "docker rmi -f quanghop/devops-training:$TAG"
 
            }
