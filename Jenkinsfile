@@ -21,9 +21,9 @@ pipeline {
          steps {
             sh "docker --version"
 
-            sh "security unlock-keychain -p $PASS"
+            sh 'security unlock-keychain -p $PASS'
 
-            sh "docker login -u quanghop -p $DOCKER_HUB"
+            sh 'docker login -u quanghop -p $DOCKER_HUB'
 
             sh "docker build nodejs/. -t devops-training-nodejs-$ENV:latest --build-arg BUILD_ENV=$ENV -f nodejs/Dockerfile"
 
