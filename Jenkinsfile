@@ -1,9 +1,5 @@
 pipeline {
-   agent {
-    docker {
-        image 'image:latest'
-    }
-   }
+   agent none
    environment {
         ENV = "dev"
         NODE = "Build-server"
