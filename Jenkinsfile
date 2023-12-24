@@ -3,6 +3,8 @@ pipeline {
    environment {
         ENV = "dev"
         NODE = "Build-server"
+        PASS = credentials('pass')
+        DOCKER_HUB = credentials('docker-pass')
     }
 
    stages {
@@ -19,9 +21,12 @@ pipeline {
          steps {
             sh "docker --version"
 
+            sh "security unlock-keychain -p $PASS"
+
+            sh "docker login -u quanghop -p $DOCKER_HUB"
+
             sh "docker build nodejs/. -t devops-training-nodejs-$ENV:latest --build-arg BUILD_ENV=$ENV -f nodejs/Dockerfile"
 
-            sh "cat docker.txt | docker login -u quanghop --password-stdin"
             // tag docker image
             sh "docker tag devops-training-nodejs-$ENV:latest devops-training:$TAG"
 
