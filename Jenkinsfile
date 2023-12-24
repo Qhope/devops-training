@@ -42,7 +42,7 @@ pipeline {
 	  stage ("Deploy ") {
 	    agent {
         node {
-            label "Target-Server"
+            label "deploy-slave"
                 customWorkspace  "/Users/quanghop/Documents/devops/devops-training-$ENV/"
             }
         }
