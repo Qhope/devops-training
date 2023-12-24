@@ -1,7 +1,6 @@
 pipeline {
    agent none
    environment {
-        ENV = "dev"
         NODE = "Build-server"
         PASS = credentials('pass')
         DOCKER_HUB = credentials('docker-pass')
@@ -19,6 +18,8 @@ pipeline {
             TAG = sh(returnStdout: true, script: "git rev-parse -short=10 HEAD | tail -n +2").trim()
         }
          steps {
+            sh "echo $ENV"
+
             sh "docker --version"
 
             sh 'security unlock-keychain -p $PASS'
