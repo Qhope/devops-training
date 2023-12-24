@@ -28,13 +28,13 @@ pipeline {
             sh "docker build nodejs/. -t devops-training-nodejs-$ENV:latest --build-arg BUILD_ENV=$ENV -f nodejs/Dockerfile"
 
             // tag docker image
-            sh "docker tag devops-training-nodejs-$ENV:latest devops-training:$TAG"
+            sh "docker tag devops-training-nodejs-$ENV:latest quanghop/devops-training:$TAG"
 
             //push docker image to docker hub
-            sh "docker push devops-training:$TAG"
+            sh "docker push quanghop/devops-training:$TAG"
 
 	    // remove docker image to reduce space on build server	
-            sh "docker rmi -f devops-training:$TAG"
+            sh "docker rmi -f quanghop/devops-training:$TAG"
 
            }
          
