@@ -19,12 +19,12 @@ services:
     networks:
       - app-network
 
-  app:
-    image: devops-training:{tag}
+  nodejs-app:
+    image: quanghop/devops-training:{tag}
     build:
       context: nodejs/.
       dockerfile: Dockerfile
-    container_name: app
+    container_name: nodejs-app
     depends_on:
       - db
     ports:

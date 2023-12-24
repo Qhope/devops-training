@@ -50,7 +50,7 @@ pipeline {
             TAG = sh(returnStdout: true, script: "git rev-parse -short=10 HEAD | tail -n +2").trim()
         }
 	steps {
-            sh "sed -i 's/{tag}/$TAG/g' /home/ubuntu/jenkins/multi-branch/devops-training-$ENV/docker-compose.yaml"
+            sh "sed -i 's/{tag}/$TAG/g' /Users/quanghop/Documents/devops/devops-training-$ENV/docker-compose.yaml"
             sh "docker compose up -d"
         }      
        }
