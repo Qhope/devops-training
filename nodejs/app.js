@@ -18,15 +18,6 @@ const connectToPool = async () => {
     connectionLimit: 10,
     queueLimit: 0,
   });
-  // return mysql.createPool({
-  //   host: "localhost",
-  //   user: "training",
-  //   password: "training_pw",
-  //   database: "users",
-  //   waitForConnections: true,
-  //   connectionLimit: 10,
-  //   queueLimit: 0,
-  // });
 };
 
 // Wait for MySQL connection
@@ -42,6 +33,8 @@ const connect = async () => {
       console.log("Connected to MySQL");
       // connection.release();
       if (pool) {
+        // env 
+        const env = process.env.ENV || "dev";
         // Create users table if not exists
         pool.execute(`
         CREATE TABLE IF NOT EXISTS users (
@@ -89,7 +82,7 @@ const connect = async () => {
          *         description: Pong response
          */
         app.get("/api/v1/ping", (req, res) => {
-          res.status(200).json({ message: "pong" });
+          res.status(200).json({ message: `pong ${env}` });
         });
 
         // Get user by ID

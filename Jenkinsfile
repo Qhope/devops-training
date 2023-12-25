@@ -1,7 +1,6 @@
 pipeline {
    agent none
    environment {
-        ENV = "dev"
         NODE = "Build-server"
         PASS = credentials('pass')
         DOCKER_HUB = credentials('docker-pass')
@@ -19,6 +18,8 @@ pipeline {
             TAG = sh(returnStdout: true, script: "git rev-parse -short=10 HEAD | tail -n +2").trim()
         }
          steps {
+            sh "echo $ENV"
+
             sh "docker --version"
 
             sh 'security unlock-keychain -p $PASS'
@@ -33,7 +34,7 @@ pipeline {
             //push docker image to docker hub
             sh "docker push quanghop/devops-training:$TAG"
 
-	    // remove docker image to reduce space on build server	
+	        // remove docker image to reduce space on build server	
             sh "docker rmi -f quanghop/devops-training:$TAG"
 
            }
@@ -51,6 +52,9 @@ pipeline {
         }
 	steps {
             sh "sed -i '' 's/{tag}/$TAG/g' /Users/quanghop/Documents/devops/devops-training-$ENV/docker-compose.yaml"
+
+            sh "sed -i '' 's/{env}/$ENV/g' /Users/quanghop/Documents/devops/devops-training-$ENV/docker-compose.yaml"
+            
             sh "docker compose up -d"
         }      
        }
