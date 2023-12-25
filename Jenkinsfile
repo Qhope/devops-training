@@ -24,7 +24,7 @@ pipeline {
 
             sh 'security unlock-keychain -p $PASS'
 
-            sh 'docker login -u quanghop -p $DOCKER_HUB'
+            sh 'cat $DOCKER_HUB | docker login -u quanghop --password-stdin'
 
             sh "docker build nodejs/. -t devops-training-nodejs-$ENV:latest --build-arg BUILD_ENV=$ENV -f nodejs/Dockerfile"
 
@@ -51,6 +51,8 @@ pipeline {
             TAG = sh(returnStdout: true, script: "git rev-parse -short=10 HEAD | tail -n +2").trim()
         }
 	steps {
+            sh 'security unlock-keychain -p $PASS'
+
             sh "sed -i '' 's/{tag}/$TAG/g' /Users/quanghop/Documents/devops/devops-training-$ENV/docker-compose.yaml"
 
             sh "sed -i '' 's/{env}/$ENV/g' /Users/quanghop/Documents/devops/devops-training-$ENV/docker-compose.yaml"
