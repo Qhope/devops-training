@@ -24,7 +24,7 @@ pipeline {
 
             sh 'security unlock-keychain -p $PASS'
 
-            sh 'cat $DOCKER_HUB | docker login -u quanghop --password-stdin'
+            sh 'echo "$DOCKER_HUB" | docker login -u quanghop --password-stdin'
 
             sh "docker build nodejs/. -t devops-training-nodejs-$ENV:latest --build-arg BUILD_ENV=$ENV -f nodejs/Dockerfile"
 
