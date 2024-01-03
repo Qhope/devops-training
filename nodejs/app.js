@@ -6,7 +6,7 @@ const swaggerUi = require("swagger-ui-express");
 const swaggerJSDoc = require("swagger-jsdoc");
 
 const app = express();
-const port = 3000;
+const port = 80;
 
 const connectToPool = async () => {
   return mysql.createPool({
@@ -33,7 +33,7 @@ const connect = async () => {
       console.log("Connected to MySQL");
       // connection.release();
       if (pool) {
-        // env 
+        // env
         const env = process.env.ENV || "dev";
         // Create users table if not exists
         pool.execute(`
@@ -259,7 +259,7 @@ const connect = async () => {
         app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
         // Start the server
-        app.listen(port, () => {
+        app.listen(port, "0.0.0.0", () => {
           console.log(`Server is running at http://localhost:${port}`);
         });
       }
