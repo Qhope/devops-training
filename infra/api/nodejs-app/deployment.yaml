@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: quanghop/devops-training:50db39704602e71160a04d151d4719d2dfe8a21b
+          image: quanghop/devops-training:${tag}
           command: ["npm", "start"]
           env:
             - name: DB_HOST
