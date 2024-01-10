@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: dotnet-app
+  namespace: api
+spec:
+  ports:
+    - name: dotnet-app
+      port: 80
+      targetPort: http
+  selector:
+    app: dotnet-app

@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app
+  namespace: api
+  labels:
+    app: app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app
+  template:
+    metadata:
+      labels:
+        app: app
+    spec:
+      containers:
+        - name: app
+          image: quanghop/devops-training:50db39704602e71160a04d151d4719d2dfe8a21b
+          command: ["npm", "start"]
+          env:
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: mysql
+                  key: host
+            - name: DB_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: mysql
+                  key: user
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql
+                  key: password
+            - name: DB_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: mysql
+                  key: db-name
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql
+                  key: root_password         
+          ports:
+            - name: http
+              containerPort: 80
+          livenessProbe:
+            exec:
+              command:
+                - "true"
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /api/v1/ping
+              port: 80
+            initialDelaySeconds: 3
+            periodSeconds: 15

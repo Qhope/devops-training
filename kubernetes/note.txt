@@ -1,0 +1,14 @@
+-- for using kubectl
+export KUBECONFIG=/etc/kubernetes/admin.conf
+
+-- Join master need --control-plane
+kubeadm join apiserver.lb:6443 --token yz2vfi.wg5upq1i7gs17w24 \
+	--discovery-token-ca-cert-hash sha256:418fcde8c20224b5c346a19dfd4f28102ca2d54574ea4c1e9ec60d630f0c1de4 \
+	--control-plane --certificate-key 7978e4c58b4e6db1a6a369647317198ceeaedce19410261a666e6b0de9ddf8ad
+
+
+
+
+-- Join worker does not need --control-plane
+kubeadm join apiserver.lb:6443 --token ske6si.3gclqggigtx6v5qb \
+        --discovery-token-ca-cert-hash sha256:0b37e2f7627af138904a0653c11eca556cdf5471c9a3475a00cd0c047d4358ad
